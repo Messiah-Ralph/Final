@@ -14,9 +14,7 @@ CREATE TABLE locations
     address         VARCHAR(255) NOT NULL,
     city            VARCHAR(100) NOT NULL,
     state           VARCHAR(50) NOT NULL,
-    zip_code        VARCHAR(10) NOT NULL,
-
-    CONSTRAINT location_id PRIMARY KEY (location_id)
+    zip_code        VARCHAR(10) NOT NULL
 );
 
 CREATE TABLE employees
@@ -27,7 +25,6 @@ CREATE TABLE employees
     empPosition     VARCHAR(20) NOT NULL,
     location_id_FK  INT,
 
-    CONSTRAINT emp_id PRIMARY KEY (emp_id),
     CONSTRAINT location_id_FK FOREIGN KEY (location_id_FK)
         REFERENCES locations(location_id)
 );
@@ -38,9 +35,7 @@ CREATE TABLE customers
     custFName       VARCHAR(30) NOT NULL,
     custLName       VARCHAR(45) NOT NULL,
     custAddress     VARCHAR(255) NOT NULL,
-    custPhone       CHAR(10) NOT NULL,
-
-    CONSTRAINT cust_id PRIMARY KEY (cust_id)
+    custPhone       CHAR(10) NOT NULL
 );
 
 CREATE TABLE vehicles
@@ -54,7 +49,6 @@ CREATE TABLE vehicles
     mileage         INT NOT NULL,
     cust_id_FK      INT,
 
-    CONSTRAINT vehicle_id PRIMARY KEY (vehicle_id),
     CONSTRAINT cust_id_FK1 FOREIGN KEY (cust_id_FK)
         REFERENCES customers(cust_id)
 );
@@ -69,9 +63,7 @@ CREATE TABLE parts
     partCategory    VARCHAR(50) NOT NULL,
     partUnit        VARCHAR(10) NOT NULL,
     partCost        DECIMAL(10, 2) NOT NULL,
-    partWarranty    VARCHAR(20) NOT NULL,
-
-    CONSTRAINT part_id PRIMARY KEY (part_id)
+    partWarranty    VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE vendors
@@ -90,7 +82,6 @@ CREATE TABLE vendors
     vendorTerms     VARCHAR(10),
     part_id_FK     INT,
 
-    CONSTRAINT vendor_id PRIMARY KEY (vendor_id),
     CONSTRAINT part_id_FK FOREIGN KEY (part_id_FK)
         REFERENCES parts(part_id)
 );
@@ -109,7 +100,6 @@ CREATE TABLE services
     emp_id_FK       INT,
     part_id_FK      INT,
 
-    CONSTRAINT service_id_PK PRIMARY KEY (service_id),
     CONSTRAINT location_id_FK1 FOREIGN KEY (location_id_FK)
         REFERENCES locations(location_id),
     CONSTRAINT emp_id_FK2 FOREIGN KEY (emp_id_FK)
@@ -133,7 +123,6 @@ CREATE TABLE invoices
     service_id_FK   INT,
     part_id_FK      INT,
 
-    CONSTRAINT invoice_id PRIMARY KEY (invoice_id),
     CONSTRAINT cust_id_FK2 FOREIGN KEY (cust_id_FK)
         REFERENCES customers(cust_id),
     CONSTRAINT vehicle_id_FK1 FOREIGN KEY (vehicle_id_FK)
