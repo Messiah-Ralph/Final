@@ -1,3 +1,5 @@
+USE repairShop;
+
 DROP TABLE IF EXISTS locations;
 DROP TABLE IF EXISTS employees;
 DROP TABLE IF EXISTS customers;
