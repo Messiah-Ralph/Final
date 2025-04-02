@@ -77,7 +77,6 @@ CREATE TABLE vendors
     vendorCity      VARCHAR(50) NOT NULL,
     vendorState     VARCHAR(15) NOT NULL,
     vendorZip       VARCHAR(10) NOT NULL,
-    vendorCountry   VARCHAR(50),
     vendorPhone     CHAR(10) NOT NULL,
     vendorEmail     VARCHAR(100),
     vendorWebsite   VARCHAR(100),

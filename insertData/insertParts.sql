@@ -37,4 +37,5 @@ VALUES
     ('DL1701-16-27', 'Starter', 'Starter', 'Duralast', 'Electrical', 'Each', 181.99, 'Limited Lifetime'),
     ('DL1701-16-28', 'Starter', 'Starter', 'Duralast', 'Electrical', 'Each', 181.99, 'Limited Lifetime'),
     ('DL1701-16-29', 'Starter', 'Starter', 'Duralast', 'Electrical', 'Each', 181.99, 'Limited Lifetime'),
-    ('DL1701-16-30','Starter' ,'Starter' ,'Duralast' ,'Electrical' ,'Each', 181.99, 'Limited Lifetime');
+    ('DL1701-16-30','Starter' ,'Starter' ,'Duralast' ,'Electrical' ,'Each', 181.99, 'Limited Lifetime'),
+    ('CAS10W30-1', 'Quart 10W-30 Oil', 'Quart of engine oil', 'Castrol', 'Engine', 'Quart', '6.35', '');
