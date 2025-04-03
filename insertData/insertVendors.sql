@@ -1,6 +1,6 @@
 USE repairShop;
 
-INSERT INTO vendor
+INSERT INTO vendors
 (vendorName, vendorContact, vendorAddress, vendorCity, vendorState, vendorZip, vendorPhone)
 VALUES
 ('Autozone', '', '2101 Oregon Avenue', 'Philadelphia', 'PA', '19145', '21543063+6'),
