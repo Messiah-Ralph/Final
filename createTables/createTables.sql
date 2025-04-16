@@ -65,7 +65,14 @@ CREATE TABLE parts
     partCategory    VARCHAR(50) NOT NULL,
     partUnit        VARCHAR(10) NOT NULL,
     partCost        DECIMAL(10, 2) NOT NULL,
-    partWarranty    VARCHAR(20) NOT NULL
+    partWarranty    VARCHAR(20) NOT NULL,
+    location_id_FK  INT,
+    service_id_FK   INT,
+
+    CONSTRAINT location_id_FK1 FOREIGN KEY (location_id_FK)
+        REFERENCES locations(location_id),
+    CONSTRAINT service_id_FK2 FOREIGN KEY (service_id_FK)
+        REFERENCES services(service_id)
 );
 
 CREATE TABLE vendors
@@ -74,17 +81,23 @@ CREATE TABLE vendors
     vendorName      VARCHAR(50) NOT NULL,
     vendorContact   VARCHAR(50),
     vendorAddress   VARCHAR(255) NOT NULL,
+--     City, State, and Zip are not on ER Diagram
     vendorCity      VARCHAR(50) NOT NULL,
     vendorState     VARCHAR(15) NOT NULL,
     vendorZip       VARCHAR(10) NOT NULL,
     vendorPhone     CHAR(10) NOT NULL,
+--     Email not on ER Diagram
     vendorEmail     VARCHAR(100),
     vendorWebsite   VARCHAR(100),
     vendorTerms     VARCHAR(10),
+--     Part ID not on ER Diagram
     part_id_FK     INT,
+    location_id_FK INT,
 
     CONSTRAINT part_id_FK FOREIGN KEY (part_id_FK)
-        REFERENCES parts(part_id)
+        REFERENCES parts(part_id),
+    CONSTRAINT location_id_FK FOREIGN KEY (location_id_FK)
+        REFERENCES locations(location_id)
 );
 
 CREATE TABLE services
@@ -92,21 +105,28 @@ CREATE TABLE services
     service_id      INT AUTO_INCREMENT PRIMARY KEY,
     serviceName     VARCHAR(50) NOT NULL,
     serviceType     VARCHAR(10) NOT NULL,
+--     Service Priority, Service Interval, Service Notif Days and Miles, and  svcMileageInt are not on ER Diagram
     servicePriority CHAR(2) NOT NULL,
     svcDateInterval VARCHAR(10) NOT NULL,
     svcNotifDays    VARCHAR(5),
     svcNotifMiles   VARCHAR(10),
     svcMileageInt   VARCHAR(10),
+    svcMileage      INT,
+    svcDate         DATE,
     location_id_FK  INT,
     emp_id_FK       INT,
+--     Part ID not on ER Diagram
     part_id_FK      INT,
+    vehicle_id_FK   INT,
 
     CONSTRAINT location_id_FK1 FOREIGN KEY (location_id_FK)
         REFERENCES locations(location_id),
     CONSTRAINT emp_id_FK2 FOREIGN KEY (emp_id_FK)
         REFERENCES employees(emp_id),
-    CONSTRAINT part_id_FK1 FOREIGN KEY (part_id_FK)
-        REFERENCES parts(part_id)
+    CONSTRAINT part_id_FK3 FOREIGN KEY (part_id_FK)
+        REFERENCES parts(part_id),
+    CONSTRAINT vehicle_ID_FK4 FOREIGN KEY (vehicle_id_FK)
+        REFERENCES vehicles(vehicle_id)
 );
 
 CREATE TABLE invoices
@@ -124,14 +144,14 @@ CREATE TABLE invoices
     service_id_FK   INT,
     part_id_FK      INT,
 
-    CONSTRAINT cust_id_FK2 FOREIGN KEY (cust_id_FK)
+    CONSTRAINT cust_id_FK1 FOREIGN KEY (cust_id_FK)
         REFERENCES customers(cust_id),
-    CONSTRAINT vehicle_id_FK1 FOREIGN KEY (vehicle_id_FK)
+    CONSTRAINT vehicle_id_FK2 FOREIGN KEY (vehicle_id_FK)
         REFERENCES vehicles(vehicle_id),
     CONSTRAINT emp_id_FK3 FOREIGN KEY (emp_id_FK)
         REFERENCES employees(emp_id),
-    CONSTRAINT service_id_FK1 FOREIGN KEY (service_id_FK)
+    CONSTRAINT service_id_FK4 FOREIGN KEY (service_id_FK)
         REFERENCES services(service_id),
-    CONSTRAINT part_id_FK2 FOREIGN KEY (part_id_FK)
+    CONSTRAINT part_id_FK5 FOREIGN KEY (part_id_FK)
         REFERENCES parts(part_id)
 );
