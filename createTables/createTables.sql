@@ -1,6 +1,6 @@
 USE repairShop;
 
-DROP TABLE IF EXISTS locations;
+DROP TABLE IF EXISTS repair_shop;
 DROP TABLE IF EXISTS employees;
 DROP TABLE IF EXISTS customers;
 DROP TABLE IF EXISTS parts;
@@ -9,14 +9,16 @@ DROP TABLE IF EXISTS services;
 DROP TABLE IF EXISTS invoices;
 DROP TABLE IF EXISTS vehicles;
 
-CREATE TABLE locations
+CREATE TABLE repair_shop
 (
-    location_id     INT AUTO_INCREMENT PRIMARY KEY,
-    location_name   VARCHAR(50) NOT NULL,
-    address         VARCHAR(255) NOT NULL,
-    city            VARCHAR(100) NOT NULL,
-    state           VARCHAR(50) NOT NULL,
-    zip_code        VARCHAR(10) NOT NULL
+    rs_id      INT AUTO_INCREMENT PRIMARY KEY,
+    rs_name    VARCHAR(50) NOT NULL,
+    address    VARCHAR(255) NOT NULL,
+    city       VARCHAR(100) NOT NULL,
+    state      VARCHAR(50) NOT NULL,
+    zip_code   VARCHAR(10) NOT NULL,
+
+    CONSTRAINT rs_id PRIMARY KEY (rs_id)
 );
 
 CREATE TABLE employees
@@ -25,10 +27,11 @@ CREATE TABLE employees
     empFName        VARCHAR(30) NOT NULL,
     empLName        VARCHAR(50) NOT NULL,
     empPosition     VARCHAR(20) NOT NULL,
-    location_id_FK  INT,
+    rs_id_FK        INT,
 
-    CONSTRAINT location_id_FK FOREIGN KEY (location_id_FK)
-        REFERENCES locations(location_id)
+    CONSTRAINT emp_id PRIMARY KEY (emp_id),
+    CONSTRAINT rs_id_FK FOREIGN KEY (rs_id_FK)
+        REFERENCES repair_shop(rs_id)
 );
 
 CREATE TABLE customers
@@ -37,7 +40,9 @@ CREATE TABLE customers
     custFName       VARCHAR(30) NOT NULL,
     custLName       VARCHAR(45) NOT NULL,
     custAddress     VARCHAR(255) NOT NULL,
-    custPhone       CHAR(10) NOT NULL
+    custPhone       CHAR(10) NOT NULL,
+
+    CONSTRAINT cust_id PRIMARY KEY (cust_id)
 );
 
 CREATE TABLE vehicles
@@ -51,6 +56,7 @@ CREATE TABLE vehicles
     mileage         INT NOT NULL,
     cust_id_FK      INT,
 
+    CONSTRAINT vehicle_id PRIMARY KEY (vehicle_id),
     CONSTRAINT cust_id_FK1 FOREIGN KEY (cust_id_FK)
         REFERENCES customers(cust_id)
 );
@@ -66,12 +72,16 @@ CREATE TABLE parts
     partUnit        VARCHAR(10) NOT NULL,
     partCost        DECIMAL(10, 2) NOT NULL,
     partWarranty    VARCHAR(20) NOT NULL,
-    location_id_FK  INT,
+    rs_id_FK        INT,
+    vendor_id_FK       INT,
     service_id_FK   INT,
 
-    CONSTRAINT location_id_FK1 FOREIGN KEY (location_id_FK)
-        REFERENCES locations(location_id),
-    CONSTRAINT service_id_FK2 FOREIGN KEY (service_id_FK)
+    CONSTRAINT (part_id) PRIMARY KEY (part_id),
+    CONSTRAINT rs_id_FK1 FOREIGN KEY (rs_id_FK)
+        REFERENCES repair_shop(rs_id),
+    CONSTRAINT vendor_id_FK2 FOREIGN KEY (vendor_id_FK)
+        REFERENCES vendors(vendor_id),
+    CONSTRAINT service_id_FK3 FOREIGN KEY (service_id_FK)
         REFERENCES services(service_id)
 );
 
@@ -81,23 +91,18 @@ CREATE TABLE vendors
     vendorName      VARCHAR(50) NOT NULL,
     vendorContact   VARCHAR(50),
     vendorAddress   VARCHAR(255) NOT NULL,
---     City, State, and Zip are not on ER Diagram
     vendorCity      VARCHAR(50) NOT NULL,
     vendorState     VARCHAR(15) NOT NULL,
     vendorZip       VARCHAR(10) NOT NULL,
     vendorPhone     CHAR(10) NOT NULL,
---     Email not on ER Diagram
     vendorEmail     VARCHAR(100),
     vendorWebsite   VARCHAR(100),
     vendorTerms     VARCHAR(10),
---     Part ID not on ER Diagram
-    part_id_FK     INT,
-    location_id_FK INT,
+    rs_id_FK INT,
 
-    CONSTRAINT part_id_FK FOREIGN KEY (part_id_FK)
-        REFERENCES parts(part_id),
-    CONSTRAINT location_id_FK FOREIGN KEY (location_id_FK)
-        REFERENCES locations(location_id)
+    CONSTRAINT (vendor_id) PRIMARY KEY (vendor_id),
+    CONSTRAINT repair_shop_id_FK FOREIGN KEY (rs_id_FK)
+        REFERENCES repair_shop(rs_id)
 );
 
 CREATE TABLE services
@@ -105,26 +110,17 @@ CREATE TABLE services
     service_id      INT AUTO_INCREMENT PRIMARY KEY,
     serviceName     VARCHAR(50) NOT NULL,
     serviceType     VARCHAR(10) NOT NULL,
---     Service Priority, Service Interval, Service Notif Days and Miles, and  svcMileageInt are not on ER Diagram
-    servicePriority CHAR(2) NOT NULL,
-    svcDateInterval VARCHAR(10) NOT NULL,
-    svcNotifDays    VARCHAR(5),
-    svcNotifMiles   VARCHAR(10),
-    svcMileageInt   VARCHAR(10),
     svcMileage      INT,
     svcDate         DATE,
-    location_id_FK  INT,
+    rs_id_FK        INT,
     emp_id_FK       INT,
---     Part ID not on ER Diagram
-    part_id_FK      INT,
     vehicle_id_FK   INT,
 
-    CONSTRAINT location_id_FK1 FOREIGN KEY (location_id_FK)
-        REFERENCES locations(location_id),
+    CONSTRAINT (service_id) PRIMARY KEY (service_id),
+    CONSTRAINT rs_id_FK1 FOREIGN KEY (rs_id_FK)
+        REFERENCES repair_shop(rs_id),
     CONSTRAINT emp_id_FK2 FOREIGN KEY (emp_id_FK)
         REFERENCES employees(emp_id),
-    CONSTRAINT part_id_FK3 FOREIGN KEY (part_id_FK)
-        REFERENCES parts(part_id),
     CONSTRAINT vehicle_ID_FK4 FOREIGN KEY (vehicle_id_FK)
         REFERENCES vehicles(vehicle_id)
 );
@@ -139,19 +135,17 @@ CREATE TABLE invoices
     invoiceDueDate  DATE NOT NULL,
     invoicePaidDate DATE,
     cust_id_FK      INT,
-    vehicle_id_FK   INT,
     emp_id_FK       INT,
     service_id_FK   INT,
-    part_id_FK      INT,
+    rs_id_FK        INT,
 
+    CONSTRAINT (invoice_id) PRIMARY KEY (invoice_id),
     CONSTRAINT cust_id_FK1 FOREIGN KEY (cust_id_FK)
         REFERENCES customers(cust_id),
-    CONSTRAINT vehicle_id_FK2 FOREIGN KEY (vehicle_id_FK)
-        REFERENCES vehicles(vehicle_id),
     CONSTRAINT emp_id_FK3 FOREIGN KEY (emp_id_FK)
         REFERENCES employees(emp_id),
     CONSTRAINT service_id_FK4 FOREIGN KEY (service_id_FK)
         REFERENCES services(service_id),
-    CONSTRAINT part_id_FK5 FOREIGN KEY (part_id_FK)
-        REFERENCES parts(part_id)
+    CONSTRAINT rs_id_FK5 FOREIGN KEY (rs_id_FK)
+        REFERENCES repair_shop(rs_id)
 );
