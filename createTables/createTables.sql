@@ -76,7 +76,7 @@ CREATE TABLE parts
     vendor_id_FK       INT,
     service_id_FK   INT,
 
-    CONSTRAINT (part_id) PRIMARY KEY (part_id),
+    CONSTRAINT(part_id) PRIMARY KEY (part_id),
     CONSTRAINT rs_id_FK1 FOREIGN KEY (rs_id_FK)
         REFERENCES repair_shop(rs_id),
     CONSTRAINT vendor_id_FK2 FOREIGN KEY (vendor_id_FK)
@@ -100,7 +100,7 @@ CREATE TABLE vendors
     vendorTerms     VARCHAR(10),
     rs_id_FK INT,
 
-    CONSTRAINT (vendor_id) PRIMARY KEY (vendor_id),
+    CONSTRAINT(vendor_id) PRIMARY KEY (vendor_id),
     CONSTRAINT repair_shop_id_FK FOREIGN KEY (rs_id_FK)
         REFERENCES repair_shop(rs_id)
 );
@@ -114,20 +114,23 @@ CREATE TABLE services
     svcDate         DATE,
     rs_id_FK        INT,
     emp_id_FK       INT,
+    inv_id_FK       INT,
     vehicle_id_FK   INT,
 
-    CONSTRAINT (service_id) PRIMARY KEY (service_id),
+    CONSTRAINT(service_id) PRIMARY KEY (service_id),
     CONSTRAINT rs_id_FK1 FOREIGN KEY (rs_id_FK)
         REFERENCES repair_shop(rs_id),
     CONSTRAINT emp_id_FK2 FOREIGN KEY (emp_id_FK)
         REFERENCES employees(emp_id),
+    CONSTRAINT inv_id_FK3 FOREIGN KEY (inv_id_FK)
+        REFERENCES invoices(inv_id),
     CONSTRAINT vehicle_ID_FK4 FOREIGN KEY (vehicle_id_FK)
         REFERENCES vehicles(vehicle_id)
 );
 
 CREATE TABLE invoices
 (
-    invoice_id      INT AUTO_INCREMENT PRIMARY KEY,
+    inv_id      INT AUTO_INCREMENT PRIMARY KEY,
     invoiceDate     DATE NOT NULL,
     invoiceTotal    DECIMAL(10, 2) NOT NULL,
     invoicePaid     CHAR(1) NOT NULL,
@@ -136,16 +139,13 @@ CREATE TABLE invoices
     invoicePaidDate DATE,
     cust_id_FK      INT,
     emp_id_FK       INT,
-    service_id_FK   INT,
     rs_id_FK        INT,
 
-    CONSTRAINT (invoice_id) PRIMARY KEY (invoice_id),
+    CONSTRAINT(inv_id) PRIMARY KEY (inv_id),
     CONSTRAINT cust_id_FK1 FOREIGN KEY (cust_id_FK)
         REFERENCES customers(cust_id),
     CONSTRAINT emp_id_FK3 FOREIGN KEY (emp_id_FK)
         REFERENCES employees(emp_id),
-    CONSTRAINT service_id_FK4 FOREIGN KEY (service_id_FK)
-        REFERENCES services(service_id),
     CONSTRAINT rs_id_FK5 FOREIGN KEY (rs_id_FK)
         REFERENCES repair_shop(rs_id)
 );
