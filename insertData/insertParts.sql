@@ -1,4 +1,3 @@
-USE repairShop;
 INSERT INTO parts
 (
  partNum, partName, partDescription, partManufacture, partCategory, partUnit, partCost, partWarranty

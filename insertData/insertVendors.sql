@@ -1,5 +1,3 @@
-USE repairShop;
-
 INSERT INTO vendors
 (vendorName, vendorContact, vendorAddress, vendorCity, vendorState, vendorZip, vendorPhone)
 VALUES

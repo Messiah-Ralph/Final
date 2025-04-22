@@ -1,4 +1,3 @@
-USE repairShop;
 INSERT INTO customers
 (
  custFName, custLName, custAddress, custPhone
