@@ -1,7 +1,7 @@
 USE repairShop;
-INSERT INTO locations
+INSERT INTO repair_shop
 (
- location_name, address, city, state, zip_code
+ rs_name, address, city, state, zip_code
 )
 VALUES
 ('Main', '2485 South Street', 'Philadelphia', 'PA', '19145'),

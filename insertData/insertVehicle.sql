@@ -1,4 +1,4 @@
-USE repairShop;
+
 INSERT INTO vehicles
 (
 vin, year, make, model, color, mileage, cust_id_FK

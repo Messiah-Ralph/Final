@@ -1,7 +1,7 @@
 USE repairShop;
 
 INSERT INTO employees
-(empFname, empLName, empPosition, location_id_FK)
+(empFname, empLName, empPosition, rs_id_FK)
 VALUES
 ('Joe', 'Brown', 'Manager', 1),
 ('Sam', 'Smucker', 'Head Mechanic', 1),
