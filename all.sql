@@ -1,7 +1,11 @@
+-- The following statement removes the database if it exists so the new database can be created.
 DROP DATABASE IF EXISTS repairShop;
+-- The following statement creates the database.
 CREATE DATABASE repairShop;
+-- The following statement tells the database that the user wants to use the database.
 USE repairShop;
 
+-- The following statements ensure that the tables do not currently exist, and if they do, they are deleted.
 DROP TABLE IF EXISTS repair_shop;
 DROP TABLE IF EXISTS employees;
 DROP TABLE IF EXISTS customers;
@@ -11,8 +15,10 @@ DROP TABLE IF EXISTS services;
 DROP TABLE IF EXISTS parts;
 DROP TABLE IF EXISTS invoices;
 
+-- These statements create the tables we will use in the database.
 CREATE TABLE repair_shop
 (
+    -- Each of the following lines creates a column in the table.  The column name is on the left, and the data type and parameters are on the right.
     rs_id      INT AUTO_INCREMENT PRIMARY KEY,
     rs_name    VARCHAR(50) NOT NULL,
     address    VARCHAR(255) NOT NULL,
@@ -21,6 +27,8 @@ CREATE TABLE repair_shop
     zip_code   VARCHAR(10) NOT NULL
 );
 
+show tables;
+
 CREATE TABLE employees
 (
     emp_id          INT AUTO_INCREMENT PRIMARY KEY,
@@ -28,10 +36,12 @@ CREATE TABLE employees
     empLName        VARCHAR(50) NOT NULL,
     empPosition     VARCHAR(20) NOT NULL,
     rs_id_FK        INT,
-
+    -- The CONSTRAINT statement designates that a column in this table is either a primary key or a foreign key and shows to which table and which column it refers.  There is no need to designate the primary key in this case, as it is already designated by the parameters above.
     CONSTRAINT rs_id_FK1 FOREIGN KEY (rs_id_FK)
         REFERENCES repair_shop(rs_id)
 );
+
+show tables;
 
 CREATE TABLE customers
 (
@@ -41,6 +51,8 @@ CREATE TABLE customers
     custAddress     VARCHAR(255) NOT NULL,
     custPhone       CHAR(10) NOT NULL
 );
+
+show tables;
 
 CREATE TABLE vehicles
 (
@@ -57,6 +69,8 @@ CREATE TABLE vehicles
         REFERENCES customers(cust_id)
 );
 
+show tables;
+
 CREATE TABLE vendors
 (
     vendor_id       INT AUTO_INCREMENT PRIMARY KEY,
@@ -70,11 +84,13 @@ CREATE TABLE vendors
     vendorEmail     VARCHAR(100),
     vendorWebsite   VARCHAR(100),
     vendorTerms     VARCHAR(10),
-    rs_id_FK INT,
+    rs_id_FK        INT,
 
     CONSTRAINT rs_id_FK2 FOREIGN KEY (rs_id_FK)
         REFERENCES repair_shop(rs_id)
 );
+
+show tables;
 
 CREATE TABLE services
 (
@@ -94,6 +110,8 @@ CREATE TABLE services
     CONSTRAINT vehicle_ID_FK1 FOREIGN KEY (vehicle_id_FK)
         REFERENCES vehicles(vehicle_id)
 );
+
+show tables;
 
 CREATE TABLE invoices
 (
@@ -119,6 +137,8 @@ CREATE TABLE invoices
         REFERENCES repair_shop(rs_id)
 );
 
+show tables;
+
 CREATE TABLE parts
 (
     part_id         INT AUTO_INCREMENT PRIMARY KEY,
@@ -142,11 +162,15 @@ CREATE TABLE parts
         REFERENCES services(service_id)
 );
 
-USE repairShop;
+show tables;
+
+-- The following statements insert data into the tables.
 INSERT INTO repair_shop
 (
+    -- This line designates what columns will be filled in with data.  The column names are separated by commas.
     rs_name, address, city, state, zip_code
 )
+-- The following lines contain the data that will be inserted.  Strings are inside single quotes, numbers are just typed in, and NULL is used for empty values.
 VALUES
     ('Main', '2485 South Street', 'Philadelphia', 'PA', '19145'),
     ('L1', '1723 West Christian Street', 'Philadelphia', 'PA', '19123'),
@@ -262,11 +286,11 @@ VALUES
     ('DL1701-16-4', 'Starter', 'Starter', 'Duralast', 'Electrical', 'Each', 181.99, 'Limited Lifetime', 2, 1, 5),
     ('DL1701-16-4', 'Starter', 'Starter', 'Duralast', 'Electrical', 'Each', 181.99, 'Limited Lifetime', 3, 1, 5),
     ('CAS10W30-1', 'Quart 10W-30 Oil', 'Quart of engine oil', 'Castrol', 'Engine', 'Quart', '6.35', '', 1, 1, 1),
-('CAS10W30-1', 'Quart 10W-30 Oil', 'Quart of engine oil', 'Castrol', 'Engine', 'Quart', '6.35', '', 2, 1, 1),
-('CAS10W30-1', 'Quart 10W-30 Oil', 'Quart of engine oil', 'Castrol', 'Engine', 'Quart', '6.35', '', 3, 1, 1),
-('CAS10W30-1', 'Quart 10W-30 Oil', 'Quart of engine oil', 'Castrol', 'Engine', 'Quart', '6.35', '', 1, 2, 1),
-('CAS10W30-1', 'Quart 10W-30 Oil', 'Quart of engine oil', 'Castrol', 'Engine', 'Quart', '6.35', '', 2, 2, 1),
-('CAS10W30-1', 'Quart 10W-30 Oil', 'Quart of engine oil', 'Castrol', 'Engine', 'Quart', '6.35', '', 3, 2, 1);
+    ('CAS10W30-1', 'Quart 10W-30 Oil', 'Quart of engine oil', 'Castrol', 'Engine', 'Quart', '6.35', '', 2, 1, 1),
+    ('CAS10W30-1', 'Quart 10W-30 Oil', 'Quart of engine oil', 'Castrol', 'Engine', 'Quart', '6.35', '', 3, 1, 1),
+    ('CAS10W30-1', 'Quart 10W-30 Oil', 'Quart of engine oil', 'Castrol', 'Engine', 'Quart', '6.35', '', 1, 2, 1),
+    ('CAS10W30-1', 'Quart 10W-30 Oil', 'Quart of engine oil', 'Castrol', 'Engine', 'Quart', '6.35', '', 2, 2, 1),
+    ('CAS10W30-1', 'Quart 10W-30 Oil', 'Quart of engine oil', 'Castrol', 'Engine', 'Quart', '6.35', '', 3, 2, 1);
 
 
 INSERT INTO invoices
@@ -287,3 +311,12 @@ VALUES
     ('2024-01-18',  6, 4, 13, 750.00, 'N', 750.00, '2024-02-18', '0000-00-00', 2),
     ('2024-02-25',  4, 5, 14, 800.00, 'N', 800.00, '2024-03-25', '0000-00-00', 1),
     ('2024-03-10',  6, 1, 15, 850.00, 'N', 850.00, '2024-04-10', '0000-00-00', 2);
+
+SELECT * FROM repair_shop;
+SELECT * FROM employees;
+SELECT * FROM customers;
+SELECT * FROM vehicles;
+SELECT * FROM vendors;
+SELECT * FROM services;
+SELECT * FROM invoices;
+SELECT * FROM parts;
